@@ -16,8 +16,6 @@ class TestPrint {
         String year = Integer.toString(calendar.get(Calendar.YEAR));
         String date = day+"."+month+"."+year;
 
-        System.out.print(data.getUsername()+" ");
-        System.out.print(data.getCity()+" ");
-        System.out.println(date);
+        System.out.println(data.getUsername()+" "+data.getCity()+" "+date);
     }
 }
