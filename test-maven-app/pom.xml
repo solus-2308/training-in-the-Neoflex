@@ -12,11 +12,20 @@
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
+  <repositories>
+    <repository>
+      <id>jcenter</id>
+      <name>bintray</name>
+      <url>https://jcenter.bintray.com</url>
+    </repository>
+  </repositories>
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
     <junit.version>4.11</junit.version>
+    <testng.version>6.10</testng.version>
   </properties>
 
   <dependencies>
@@ -24,6 +33,13 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${testng.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -48,6 +64,11 @@
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>2.22.1</version>
+          <configuration>
+            <suiteXmlFiles>
+              <suiteXmlFiles>testng.xml</suiteXmlFiles>
+            </suiteXmlFiles>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
