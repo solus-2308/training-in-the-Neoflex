@@ -6,22 +6,14 @@
     <parameter name="username"  value="Romka" />
     <parameter name="city"  value="Penza" />
     <classes>
-      <class name="neoflex.Annotations">
-        <methods>
-          <include name="test"/>
-        </methods>
-      </class>
+      <class name="neoflex.Annotations"/>
     </classes>
   </test>
   <test name="negative" >
     <parameter name="username"  value="Denis" />
     <parameter name="city"  value="Novgorod" />
     <classes>
-      <class name="neoflex.Annotations">
-        <methods>
-          <include name="test"/>
-        </methods>
-      </class>
+      <class name="neoflex.Annotations"/>
     </classes>
   </test>
 </suite>

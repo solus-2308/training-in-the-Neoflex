@@ -4,11 +4,7 @@
 <suite name="SWAPI">
   <test name="positive" >
     <classes>
-      <class name="neoflex.RestAssured">
-        <methods>
-          <include name="test"/>
-        </methods>
-      </class>
+      <class name="neoflex.RestAssuredTest"/>
     </classes>
   </test>
 </suite>
