@@ -26,9 +26,18 @@
     <maven.compiler.target>1.7</maven.compiler.target>
     <junit.version>4.11</junit.version>
     <testng.version>6.10</testng.version>
+    <rest.version>4.3.2</rest.version>
   </properties>
 
   <dependencies>
+
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <version>${rest.version}</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -67,6 +76,7 @@
           <configuration>
             <suiteXmlFiles>
               <suiteXmlFiles>testng.xml</suiteXmlFiles>
+              <suiteXmlFiles>testng2.xml</suiteXmlFiles>
             </suiteXmlFiles>
           </configuration>
         </plugin>
