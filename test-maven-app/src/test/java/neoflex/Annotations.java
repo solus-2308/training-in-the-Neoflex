@@ -1,8 +1,12 @@
 package neoflex;
 
 import org.testng.annotations.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Annotations {
+
+  private static final Logger logger = LogManager.getLogger();
 
   @Parameters({"username", "city"})
   @Test
@@ -10,14 +14,14 @@ public class Annotations {
     TestContent content = new TestContent();
     boolean condition1 = (username.equals(content.getUsername()));
     boolean condition2 = (city.equals(content.getCity()));
-    System.out.println("\nRomka == "+ username + " ? " + condition1);
-    System.out.println("Penza == "+ city + " ? " + condition2);
-    System.out.println("the test is over");
+    logger.info("Romka == "+ username + " ? " + condition1);
+    logger.info("Penza == "+ city + " ? " + condition2);
+    logger.info("the test is over");
   }
   
   @AfterSuite
   public void reportReady() {
-    System.out.println("\nthe report is ready :)\n");
+    logger.info("the report is ready :)");
   }
 }
 
