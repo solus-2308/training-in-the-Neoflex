@@ -14,8 +14,8 @@ public class Annotations {
     TestContent content = new TestContent();
     boolean condition1 = (username.equals(content.getUsername()));
     boolean condition2 = (city.equals(content.getCity()));
-    logger.info("Romka == "+ username + " ? " + condition1);
-    logger.info("Penza == "+ city + " ? " + condition2);
+    logger.info(content.getUsername() + " == "+ username + " ? " + condition1);
+    logger.info(content.getCity() + " == " + city + " ? " + condition2);
     logger.info("the test is over");
   }
   
