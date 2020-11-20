@@ -31,6 +31,16 @@ class RestAssuredTest{
             then().statusCode(200).extract().response();
         return response;
     }
+    public void showInfo(LinkedHashMap<String, String> map){
+        for(String field: map.keySet()){
+            logger.info(field +": " + String.valueOf(map.get(field)));
+        }
+    }
+    public void showInfo(ArrayList<String> list){
+        for(String field: list){
+            logger.info(field);
+        }
+    }
 
     @Test
     public void testCase1(){
@@ -47,14 +57,10 @@ class RestAssuredTest{
 
         logger.info("2)Список фильмов");
         ArrayList<String> list = getResponse("/films").path("results.title");
-        for(String field: list){
-            logger.info(field);
-        }
+        showInfo(list);
         logger.info("Информация по первому вышедшему фильму:");
         LinkedHashMap<String, String> map = getResponse("/films/1").path("");
-        for(String field: map.keySet()){
-            logger.info(field +": " + String.valueOf(map.get(field)));
-        }
+        showInfo(map);
     }
 
     @Test
@@ -62,14 +68,10 @@ class RestAssuredTest{
 
         logger.info("3)Список планет");
         ArrayList<String> list = getResponse("/planets").path("results.name");
-        for(String field: list){
-            logger.info(field);
-        }
+        showInfo(list);
         logger.info("Информация по Татуину:");
         LinkedHashMap<String, String> map = getResponse("/planets/1").path("");
-        for(String field: map.keySet()){
-            logger.info(field +": " + String.valueOf(map.get(field)));
-        }
+        showInfo(map);
     }
 
     @Test
@@ -77,14 +79,10 @@ class RestAssuredTest{
 
         logger.info("4)Список рас");
         ArrayList<String> list = getResponse("/species").path("results.name");
-        for(String field: list){
-            logger.info(field);
-        }
+        showInfo(list);
         logger.info("Информация про расу Вуки с Кашиика:");
         LinkedHashMap<String, String> map = getResponse("/species/3").path("");
-        for(String field: map.keySet()){
-            logger.info(field +": " + String.valueOf(map.get(field)));
-        }
+        showInfo(map);
     }
 
     @Test
