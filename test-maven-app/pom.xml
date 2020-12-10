@@ -29,9 +29,36 @@
     <rest.version>4.3.2</rest.version>
     <log4j_api.version>2.14.0</log4j_api.version>
     <log4j_core.version>2.14.0</log4j_core.version>
+    <selenium-java.version>3.141.59</selenium-java.version>
+    <web-driver-manager.version>4.2.2</web-driver-manager.version>
+    <slf4j.version>1.7.30</slf4j.version>
   </properties>
 
   <dependencies>
+
+    <dependency>
+      <groupId>io.github.bonigarcia</groupId>
+      <artifactId>webdrivermanager</artifactId>
+      <version>${web-driver-manager.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.seleniumhq.selenium</groupId>
+      <artifactId>selenium-java</artifactId>
+      <version>${selenium-java.version}</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4j.version}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>${slf4j.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
@@ -94,8 +121,9 @@
           <version>2.22.1</version>
           <configuration>
             <suiteXmlFiles>
-              <suiteXmlFiles>testng.xml</suiteXmlFiles>
-              <suiteXmlFiles>testng2.xml</suiteXmlFiles>
+              <suiteXmlFile>testng.xml</suiteXmlFile>
+              <suiteXmlFile>testng2.xml</suiteXmlFile>
+              <suiteXmlFile>testng3.xml</suiteXmlFile>
             </suiteXmlFiles>
           </configuration>
         </plugin>

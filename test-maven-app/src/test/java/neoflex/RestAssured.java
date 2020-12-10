@@ -1,6 +1,7 @@
 package neoflex;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.ArrayList;
 import org.testng.annotations.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,7 +11,7 @@ import static io.restassured.matcher.RestAssuredMatchers.*;
 import static org.hamcrest.Matchers.*;
 
 
-class RestAssuredTest{
+class RestAssured{
 
     private static final Logger logger = LogManager.getLogger();
 
