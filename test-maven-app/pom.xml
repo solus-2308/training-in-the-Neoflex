@@ -32,9 +32,16 @@
     <selenium-java.version>3.141.59</selenium-java.version>
     <web-driver-manager.version>4.2.2</web-driver-manager.version>
     <slf4j.version>1.7.30</slf4j.version>
+    <aspectj.version>1.9.2</aspectj.version>
   </properties>
 
   <dependencies>
+
+    <dependency>
+      <groupId>io.qameta.allure</groupId>
+      <artifactId>allure-testng</artifactId>
+      <version>2.13.7</version>
+    </dependency>
 
     <dependency>
       <groupId>io.github.bonigarcia</groupId>
@@ -102,6 +109,11 @@
     </resources>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
+        <plugin>
+          <groupId>io.qameta.allure</groupId>
+          <artifactId>allure-maven</artifactId>
+          <version>2.10.0</version>
+        </plugin>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
@@ -115,6 +127,10 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.0</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+          </configuration>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -125,7 +141,17 @@
               <suiteXmlFile>testng2.xml</suiteXmlFile>
               <suiteXmlFile>testng3.xml</suiteXmlFile>
             </suiteXmlFiles>
+            <argLine>
+              -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
+            </argLine>
           </configuration>
+          <dependencies>
+              <dependency>
+                <groupId>org.aspectj</groupId>
+                <artifactId>aspectjweaver</artifactId>
+                <version>${aspectj.version}</version>
+              </dependency>
+          </dependencies>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
