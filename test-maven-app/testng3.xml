@@ -4,7 +4,7 @@
 <suite name="Selenium-WebDriver">
   <test name="positive" >
     <classes>
-      <class name="neoflex.selenium.SileniumTestMail"/>
+      <class name="neoflex.selenium.Initializator"/>
     </classes>
   </test>
 </suite>
