@@ -48,9 +48,12 @@ class MailBox {
     void checkMessage(Message message){
         getWebElement(By.linkText("Черновики")).click();
         getWebElement(By.cssSelector(".dataset__items > a:nth-of-type(1)")).click();
-        String checkField = getWebElement(By.cssSelector("[class='text--1tHKB']")).getText();
-        Assert.assertEquals(checkField, message.getWhom());
-        checkField = getWebElement(By.cssSelector("[class='text--1tHKB']")).getText();
+        String checkFieldWhom = getWebElement(By.cssSelector("[class='text--1tHKB']")).getText();
+        String checkFieldSubject = getWebElement(By.cssSelector("input[name='Subject']")).getAttribute("value");
+        String checkFieldBody = getWebElement(By.cssSelector("div[role='textbox'] > div > div > div > div > div")).getText();
+        Assert.assertEquals(checkFieldWhom, message.getWhom());
+        Assert.assertEquals(checkFieldSubject, message.getSubject());
+        Assert.assertEquals(checkFieldBody, message.getBody());
     }
 
 
