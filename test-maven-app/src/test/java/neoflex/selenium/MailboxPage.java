@@ -16,19 +16,26 @@ class MailBox {
 
     private WebDriver driver;
 
-    public MailBox(WebDriver driver) {
+    public MailBox(WebDriver driver, String login, String password) {
         this.driver = driver;
+        loginAs(login, password);
+    }
+
+    private void loginAs(String login, String password){
+        driver.manage().window().maximize();
+        driver.get("https://mail.ru");
+        getWebElement(By.name("login")).sendKeys(login + Keys.ENTER);
+        getWebElement(By.name("password")).sendKeys(password + Keys.ENTER);
     }
 
     WebElement getWebElement(By by){
-        WebElement dynamicElement = (new WebDriverWait(driver, 15))
+        WebElement dynamicElement = (new WebDriverWait(driver, 25))
             .until(ExpectedConditions.elementToBeClickable(by));
         return driver.findElement(by);
     }
 
     void openWriter(){
-        driver.manage().window().maximize();
-        getWebElement(By.cssSelector("a[title='Написать письмо'] > .compose-button__wrapper")).click();
+        getWebElement(By.cssSelector("a[title='Написать письмо']")).click();
     }
 
     void closeWriter(){
@@ -56,5 +63,7 @@ class MailBox {
         Assert.assertEquals(checkFieldBody, message.getBody());
     }
 
-
+    void exit(){
+        getWebElement(By.id("PH_logoutLink")).click();
+    }
 }

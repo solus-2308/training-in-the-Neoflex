@@ -72,20 +72,22 @@ public class Initializator {
     }
 
     @DataProvider(name="getData")
-    private Object[][] getLoginData(){
+    private Object[][] getData(){
         Object[][] data = {{"vip.jusper@mail.ru", "super-secret-password", "vip.jusper@mail.ru", "Automation QA", "Тут появиться текст"}};
         return data;
     }
 
     @Test(dataProvider="getData")
     public void draftTest(String login, String password, String whom, String subject, String body) {
-        MailBox mail = new LoginPage(driver).loginAs(login, password);
+        MailBox mail = new MailBox(driver, login, password);
         mail.openWriter();
         Message message = new Message(whom, subject, body);
         mail.fillFieldsOfMessage(message);
         mail.saveAsDraft();
         mail.closeWriter();
         mail.checkMessage(message);
+        mail.closeWriter();
+        mail.exit();
     }
 
 }
