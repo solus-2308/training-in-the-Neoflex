@@ -29,17 +29,17 @@ class MailBox {
     }
 
     WebElement getWebElement(By by){
-        WebElement dynamicElement = (new WebDriverWait(driver, 25))
+        WebElement dynamicElement = (new WebDriverWait(driver, 30))
             .until(ExpectedConditions.elementToBeClickable(by));
         return driver.findElement(by);
     }
 
     void openWriter(){
-        getWebElement(By.cssSelector("a[title='Написать письмо']")).click();
+        getWebElement(By.cssSelector("[data-title-shortcut='N']")).click();
     }
 
     void closeWriter(){
-        getWebElement(By.cssSelector("button[title='Закрыть']")).click();
+        getWebElement(By.cssSelector("button[tabindex='700']")).click();
     }
 
     void fillFieldsOfMessage(Message message){
@@ -49,12 +49,12 @@ class MailBox {
     }
 
     void saveAsDraft(){
-        getWebElement(By.cssSelector("span[title='Сохранить']")).click();
+        getWebElement(By.cssSelector("[data-title-shortcut='Ctrl\\+S']")).click();
     }
 
-    void checkMessage(Message message){
-        getWebElement(By.linkText("Черновики")).click();
-        getWebElement(By.cssSelector(".dataset__items > a:nth-of-type(1)")).click();
+    void checkMessageAsDraft(Message message){
+        getWebElement(By.xpath("//div[@id='sideBarContent']//nav/a[@href='/drafts/']")).click();
+        getWebElement(By.cssSelector("a[href^='/drafts/'][tabindex]")).click();
         String checkFieldWhom = getWebElement(By.cssSelector("[class='text--1tHKB']")).getText();
         String checkFieldSubject = getWebElement(By.cssSelector("input[name='Subject']")).getAttribute("value");
         String checkFieldBody = getWebElement(By.cssSelector("div[role='textbox'] > div > div > div > div > div")).getText();
