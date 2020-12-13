@@ -33,7 +33,7 @@ public class Initializator {
         WebDriverManager.operadriver().setup();
     }
 
-    @BeforeTest
+    @BeforeMethod
     public void setupTest() {
         try{
             ConfigReader conf = new ConfigReader();
@@ -58,10 +58,10 @@ public class Initializator {
         return new EdgeDriver();
     }
 
-    @AfterTest
+    @AfterMethod
     public void correctlyQuit() {
         try {
-            TimeUnit.SECONDS.sleep(10);
+            TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException ie) {
             Thread.currentThread().interrupt();
         }
@@ -73,7 +73,7 @@ public class Initializator {
 
     @DataProvider(name="getData")
     private Object[][] getData(){
-        Object[][] data = {{"vip.jusper@mail.ru", "super-secret-password", "vip.jusper@mail.ru", "Automation QA", "Тут появиться текст"}};
+        Object[][] data = {{"vip.jusper@mail.ru", "super-secret-password", "vip.jusper@mail.ru", "Automation QA", "Тут появится текст"}};
         return data;
     }
 
@@ -85,8 +85,19 @@ public class Initializator {
         mail.fillFieldsOfMessage(message);
         mail.saveAsDraft();
         mail.closeWriter();
-        mail.checkMessage(message);
+        mail.checkMessageAsDraft(message);
         mail.closeWriter();
+        mail.exit();
+    }
+
+    @Test(dataProvider="getData")
+    public void sendMessage(String login, String password, String whom, String subject, String body){
+        MailBox mail = new MailBox(driver, login, password);
+        mail.openWriter();
+        Message message = new Message(whom, subject, body);
+        mail.fillFieldsOfMessage(message);
+        mail.sendMessage();
+        mail.checkSentMessage(message);
         mail.exit();
     }
 

@@ -15,9 +15,11 @@ import org.testng.Assert;
 class MailBox {
 
     private WebDriver driver;
+    private String username;
 
     public MailBox(WebDriver driver, String login, String password) {
         this.driver = driver;
+        username = login;
         loginAs(login, password);
     }
 
@@ -58,9 +60,31 @@ class MailBox {
         String checkFieldWhom = getWebElement(By.cssSelector("[class='text--1tHKB']")).getText();
         String checkFieldSubject = getWebElement(By.cssSelector("input[name='Subject']")).getAttribute("value");
         String checkFieldBody = getWebElement(By.cssSelector("div[role='textbox'] > div > div > div > div > div")).getText();
-        Assert.assertEquals(checkFieldWhom, message.getWhom());
-        Assert.assertEquals(checkFieldSubject, message.getSubject());
-        Assert.assertEquals(checkFieldBody, message.getBody());
+        checkData(new String[]{checkFieldWhom, checkFieldSubject, checkFieldBody}, message.getAllData());
+    }
+
+    void sendMessage(){
+        getWebElement(By.cssSelector("[data-title-shortcut='Ctrl\\+Enter']")).click();
+        getWebElement(By.cssSelector("[tabindex='1000']")).click();       
+    }
+
+    void checkSentMessage(Message message){
+        getWebElement(By.xpath("//div[@id='sideBarContent']//nav/a[@href='/sent/']")).click();
+        getWebElement(By.cssSelector("a[href^='/sent/'][tabindex]")).click();
+        String checkFieldWhom = getWebElement(By.cssSelector("[class^='letter-contact']")).getAttribute("title");
+        String checkFieldSubject = getWebElement(By.cssSelector("[class*='thread__subject_pony-mode']")).getText();
+        // When sending a message to yourself, appear the inscription "Self: "
+        if(username.equals(message.getWhom())){
+            checkFieldSubject = checkFieldSubject.substring(6);
+        }   
+        String checkFieldBody = getWebElement(By.cssSelector("div[class^='js-helper']>div>div>div>div")).getText(); 
+        checkData(new String[]{checkFieldWhom, checkFieldSubject, checkFieldBody}, message.getAllData());
+    }
+
+    private void checkData(String[] arr1, String[] arr2){
+        for(int i = 0; i < arr1.length; i++){
+            Assert.assertEquals(arr1[i], arr2[i]);
+        }
     }
 
     void exit(){
