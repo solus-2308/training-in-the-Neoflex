@@ -23,8 +23,4 @@ class Message{
     String getBody(){
         return body;
     }
-
-    String[] getAllData(){
-        return new String[] {whom, subject, body};
-    }
 }

@@ -60,7 +60,7 @@ class MailBox {
         String checkFieldWhom = getWebElement(By.cssSelector("[class='text--1tHKB']")).getText();
         String checkFieldSubject = getWebElement(By.cssSelector("input[name='Subject']")).getAttribute("value");
         String checkFieldBody = getWebElement(By.cssSelector("div[role='textbox'] > div > div > div > div > div")).getText();
-        checkData(new String[]{checkFieldWhom, checkFieldSubject, checkFieldBody}, message.getAllData());
+        checkData( checkFieldWhom, checkFieldSubject, checkFieldBody, message);
     }
 
     void sendMessage(){
@@ -78,13 +78,13 @@ class MailBox {
             checkFieldSubject = checkFieldSubject.substring(6);
         }   
         String checkFieldBody = getWebElement(By.cssSelector("div[class^='js-helper']>div>div>div>div")).getText(); 
-        checkData(new String[]{checkFieldWhom, checkFieldSubject, checkFieldBody}, message.getAllData());
+        checkData( checkFieldWhom, checkFieldSubject, checkFieldBody, message);
     }
 
-    private void checkData(String[] arr1, String[] arr2){
-        for(int i = 0; i < arr1.length; i++){
-            Assert.assertEquals(arr1[i], arr2[i]);
-        }
+    private void checkData(String checkWhom, String checkSubject, String checkBody, Message message){
+        Assert.assertEquals(checkWhom, message.getWhom());
+        Assert.assertEquals(checkSubject, message.getSubject());
+        Assert.assertEquals(checkBody, message.getBody());
     }
 
     void exit(){
