@@ -31,8 +31,47 @@ class MailBox {
     @FindBy(css = "button[tabindex='700']")
     private WebElement closeWriterButton;
 
-    @FindBy(css = ".container--ItIg4 [type='text']")
+    @FindBy(css = "input[tabindex='100']")
     private WebElement writerWhomField;
+    @FindBy(css = "input[name='Subject']")
+    private WebElement writerSubjectField;
+    @FindBy(css = "[tabindex='505']")
+    private WebElement writerBodyField;
+
+    @FindBy(css = "[data-title-shortcut='Ctrl\\+S']")
+    private WebElement saveAsDraftMessageButton;
+
+    @FindBy(xpath = "//div[@id='sideBarContent']//nav/a[@href='/drafts/']")
+    private WebElement openDraftsButton;
+    @FindBy(css = "a[href^='/drafts/'][tabindex]")
+    private WebElement openDraftMessageButton;
+
+    @FindBy(css = "[class='text--1tHKB']")
+    private WebElement checkDraftWhomField;
+    @FindBy(css = "input[name='Subject']")
+    private WebElement checkDraftSubjectField;
+    @FindBy(css = "[class^='cl_']>div")
+    private WebElement checkDraftBodyField;
+
+    @FindBy(css = "[data-title-shortcut='Ctrl\\+Enter']")
+    private WebElement sendMessageButton;
+    @FindBy(css = "[tabindex='1000']")
+    private WebElement closeNotificationButton;
+
+    @FindBy(xpath = "//div[@id='sideBarContent']//nav/a[@href='/sent/']")
+    private WebElement openSentsButton;
+    @FindBy(css = "a[href^='/sent/'][tabindex]")
+    private WebElement openSentMessageButton;
+
+    @FindBy(css = "[class^='letter-contact']")
+    private WebElement checkSentWhomField;
+    @FindBy(css = "[class*='thread__subject_pony-mode']")
+    private WebElement checkSentSubjectField;
+    @FindBy(css = "[class^='cl_']>div")
+    private WebElement checkSentBodyField;
+
+    @FindBy(id = "PH_logoutLink")
+    private WebElement exitButton;
 
     public MailBox(WebDriver driver, String login, String password) {
         PageFactory.initElements(driver, this);
@@ -47,10 +86,7 @@ class MailBox {
         waitFor(loginField).sendKeys(login + Keys.ENTER);
         waitFor(passwordField).sendKeys(password + Keys.ENTER);
     }
-
-    WebElement getWebElement(By by){
-        return (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(by));
-    }
+    
     WebElement waitFor(WebElement elem){
         return (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(elem));
     }
@@ -65,38 +101,38 @@ class MailBox {
 
     void fillFieldsOfMessage(Message message){
         waitFor(writerWhomField).sendKeys(message.getWhom());
-        getWebElement(By.cssSelector("input[name='Subject']")).sendKeys(message.getSubject());
-        getWebElement(By.xpath("//div[@role='textbox']/div[2]")).sendKeys(message.getBody());
+        waitFor(writerSubjectField).sendKeys(message.getSubject());
+        waitFor(writerBodyField).sendKeys(message.getBody());
     }
 
     void saveAsDraft(){
-        getWebElement(By.cssSelector("[data-title-shortcut='Ctrl\\+S']")).click();
+        waitFor(saveAsDraftMessageButton).click();
     }
 
     void checkMessageAsDraft(Message message){
-        getWebElement(By.xpath("//div[@id='sideBarContent']//nav/a[@href='/drafts/']")).click();
-        getWebElement(By.cssSelector("a[href^='/drafts/'][tabindex]")).click();
-        String checkFieldWhom = getWebElement(By.cssSelector("[class='text--1tHKB']")).getText();
-        String checkFieldSubject = getWebElement(By.cssSelector("input[name='Subject']")).getAttribute("value");
-        String checkFieldBody = getWebElement(By.cssSelector("div[role='textbox'] > div > div > div > div > div")).getText();
+        waitFor(openDraftsButton).click();
+        waitFor(openDraftMessageButton).click();
+        String checkFieldWhom = waitFor(checkDraftWhomField).getText();
+        String checkFieldSubject = waitFor(checkDraftSubjectField).getAttribute("value");
+        String checkFieldBody = waitFor(checkDraftBodyField).getText();
         checkData( checkFieldWhom, checkFieldSubject, checkFieldBody, message);
     }
 
     void sendMessage(){
-        getWebElement(By.cssSelector("[data-title-shortcut='Ctrl\\+Enter']")).click();
-        getWebElement(By.cssSelector("[tabindex='1000']")).click();       
+        waitFor(sendMessageButton).click();
+        waitFor(closeNotificationButton).click();       
     }
 
     void checkSentMessage(Message message){
-        getWebElement(By.xpath("//div[@id='sideBarContent']//nav/a[@href='/sent/']")).click();
-        getWebElement(By.cssSelector("a[href^='/sent/'][tabindex]")).click();
-        String checkFieldWhom = getWebElement(By.cssSelector("[class^='letter-contact']")).getAttribute("title");
-        String checkFieldSubject = getWebElement(By.cssSelector("[class*='thread__subject_pony-mode']")).getText();
+        waitFor(openSentsButton).click();
+        waitFor(openSentMessageButton).click();
+        String checkFieldWhom = waitFor(checkSentWhomField).getAttribute("title");
+        String checkFieldSubject = waitFor(checkSentSubjectField).getText();
         // When sending a message to yourself, appear the inscription "Self: "
         if(username.equals(message.getWhom())){
             checkFieldSubject = checkFieldSubject.substring(6);
         }   
-        String checkFieldBody = getWebElement(By.cssSelector("div[class^='js-helper']>div>div>div>div")).getText(); 
+        String checkFieldBody = waitFor(checkSentBodyField).getText(); 
         checkData( checkFieldWhom, checkFieldSubject, checkFieldBody, message);
     }
 
@@ -107,6 +143,6 @@ class MailBox {
     }
 
     void exit(){
-        getWebElement(By.id("PH_logoutLink")).click();
+        waitFor(exitButton).click();
     }
 }
