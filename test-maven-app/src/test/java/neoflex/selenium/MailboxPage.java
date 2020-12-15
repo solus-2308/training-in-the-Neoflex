@@ -10,14 +10,32 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 
 class MailBox {
 
-    private WebDriver driver;
-    private String username;
+    final private WebDriver driver;
+    final private String username;
+
+    @FindBy(name = "login")
+    private WebElement loginField;
+    
+    @FindBy(name = "password")
+    private WebElement passwordField;
+
+    @FindBy(css = "[data-title-shortcut='N']")
+    private WebElement openWriterButton;
+
+    @FindBy(css = "button[tabindex='700']")
+    private WebElement closeWriterButton;
+
+    @FindBy(css = ".container--ItIg4 [type='text']")
+    private WebElement writerWhomField;
 
     public MailBox(WebDriver driver, String login, String password) {
+        PageFactory.initElements(driver, this);
         this.driver = driver;
         username = login;
         loginAs(login, password);
@@ -26,26 +44,27 @@ class MailBox {
     private void loginAs(String login, String password){
         driver.manage().window().maximize();
         driver.get("https://mail.ru");
-        getWebElement(By.name("login")).sendKeys(login + Keys.ENTER);
-        getWebElement(By.name("password")).sendKeys(password + Keys.ENTER);
+        waitFor(loginField).sendKeys(login + Keys.ENTER);
+        waitFor(passwordField).sendKeys(password + Keys.ENTER);
     }
 
     WebElement getWebElement(By by){
-        WebElement dynamicElement = (new WebDriverWait(driver, 30))
-            .until(ExpectedConditions.elementToBeClickable(by));
-        return driver.findElement(by);
+        return (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(by));
+    }
+    WebElement waitFor(WebElement elem){
+        return (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(elem));
     }
 
     void openWriter(){
-        getWebElement(By.cssSelector("[data-title-shortcut='N']")).click();
+        waitFor(openWriterButton).click();
     }
 
     void closeWriter(){
-        getWebElement(By.cssSelector("button[tabindex='700']")).click();
+        waitFor(closeWriterButton).click();
     }
 
     void fillFieldsOfMessage(Message message){
-        getWebElement(By.cssSelector(".container--ItIg4 [type='text']")).sendKeys(message.getWhom());
+        waitFor(writerWhomField).sendKeys(message.getWhom());
         getWebElement(By.cssSelector("input[name='Subject']")).sendKeys(message.getSubject());
         getWebElement(By.xpath("//div[@role='textbox']/div[2]")).sendKeys(message.getBody());
     }
