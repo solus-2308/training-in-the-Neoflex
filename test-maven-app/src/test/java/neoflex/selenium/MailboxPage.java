@@ -13,6 +13,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
+import io.qameta.allure.Step;
 
 class MailBox {
 
@@ -80,6 +81,7 @@ class MailBox {
         loginAs(login, password);
     }
 
+    @Step("Используем переданные логин и пароль")
     private void loginAs(String login, String password){
         driver.manage().window().maximize();
         driver.get("https://mail.ru");
@@ -91,24 +93,29 @@ class MailBox {
         return (new WebDriverWait(driver, 30)).until(ExpectedConditions.elementToBeClickable(elem));
     }
 
+    @Step("Открываем редактор письма")
     void openWriter(){
         waitFor(openWriterButton).click();
     }
 
+    @Step("Закрываем редактор письма")
     void closeWriter(){
         waitFor(closeWriterButton).click();
     }
 
+    @Step("Заполняем письмо данными из объекта-шаблона")
     void fillFieldsOfMessage(Message message){
         waitFor(writerWhomField).sendKeys(message.getWhom());
         waitFor(writerSubjectField).sendKeys(message.getSubject());
         waitFor(writerBodyField).sendKeys(message.getBody());
     }
 
+    @Step("Сохраняем как черновик")
     void saveAsDraft(){
         waitFor(saveAsDraftMessageButton).click();
     }
 
+    @Step("Получяем содержимое полей письма-черновика")
     void checkMessageAsDraft(Message message){
         waitFor(openDraftsButton).click();
         waitFor(openDraftMessageButton).click();
@@ -118,11 +125,13 @@ class MailBox {
         checkData( checkFieldWhom, checkFieldSubject, checkFieldBody, message);
     }
 
+    @Step("Отправляем сообщение")
     void sendMessage(){
         waitFor(sendMessageButton).click();
         waitFor(closeNotificationButton).click();       
     }
 
+    @Step("Получяем содержимое полей отправленного письма")
     void checkSentMessage(Message message){
         waitFor(openSentsButton).click();
         waitFor(openSentMessageButton).click();
@@ -136,12 +145,14 @@ class MailBox {
         checkData( checkFieldWhom, checkFieldSubject, checkFieldBody, message);
     }
 
+    @Step("Проверяем содержимое полей на идентичность исходным данным")
     private void checkData(String checkWhom, String checkSubject, String checkBody, Message message){
         Assert.assertEquals(checkWhom, message.getWhom());
         Assert.assertEquals(checkSubject, message.getSubject());
         Assert.assertEquals(checkBody, message.getBody());
     }
 
+    @Step("Выходим из аккаунта")
     void exit(){
         waitFor(exitButton).click();
     }

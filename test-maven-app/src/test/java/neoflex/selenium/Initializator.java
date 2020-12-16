@@ -1,6 +1,5 @@
 package neoflex.selenium;
 
-import java.util.concurrent.TimeUnit; //delete
 import org.testng.annotations.*;
 import neoflex.ConfigReader;
 
@@ -12,11 +11,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.Keys;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -60,12 +54,6 @@ public class Initializator {
 
     @AfterMethod
     public void correctlyQuit() {
-        try {
-            TimeUnit.SECONDS.sleep(2);
-        } catch (InterruptedException ie) {
-            Thread.currentThread().interrupt();
-        }
-
         if (driver != null) {
             driver.quit();
         }
@@ -73,7 +61,7 @@ public class Initializator {
 
     @DataProvider(name="getData")
     private Object[][] getData(){
-        Object[][] data = {{"vip.jusper@mail.ru", "super-secret-password", "vip.jusper@mail.ru", "Automation QA", "Тут появится текст"}};
+        Object[][] data = {{"login@mail.ru", "password", "anotherUser@mail.ru", "Subject", "Text"}};
         return data;
     }
 
