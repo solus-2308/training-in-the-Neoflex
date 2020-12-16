@@ -2,6 +2,7 @@ package neoflex.selenium;
 
 import org.testng.annotations.*;
 import neoflex.ConfigReader;
+import neoflex.selenium.testSupportClasses.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
