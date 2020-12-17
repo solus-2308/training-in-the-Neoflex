@@ -68,25 +68,33 @@ public class Initializator {
 
     @Test(dataProvider="getData")
     public void draftTest(String login, String password, String whom, String subject, String body) {
+        logger.info("Входим на почтовую страницу");
         MailBox mail = new MailBox(driver, login, password);
         mail.openWriter();
         Message message = new Message(whom, subject, body);
+        logger.info("Заполняем поля письма");
         mail.fillFieldsOfMessage(message);
         mail.saveAsDraft();
         mail.closeWriter();
+        logger.info("Проверяем правильность заполнения полей");
         mail.checkMessageAsDraft(message);
         mail.closeWriter();
+        logger.info("Выходим");
         mail.exit();
     }
 
     @Test(dataProvider="getData")
     public void sendMessage(String login, String password, String whom, String subject, String body){
+        logger.info("Входим на почтовую страницу");
         MailBox mail = new MailBox(driver, login, password);
         mail.openWriter();
         Message message = new Message(whom, subject, body);
+        logger.info("Заполняем поля письма");
         mail.fillFieldsOfMessage(message);
         mail.sendMessage();
+        logger.info("Проверяем поля отправленного письма на эквивалентность шаблону");
         mail.checkSentMessage(message);
+        logger.info("Выходим");
         mail.exit();
     }
 
